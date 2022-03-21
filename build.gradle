@@ -1,0 +1,69 @@
+plugins {
+    id 'org.springframework.boot' version '2.6.4'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+    id 'java'
+}
+
+group = 'com.irun'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '11'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-webflux'
+    implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.2.2'
+    runtimeOnly 'org.mariadb.jdbc:mariadb-java-client:2.7.3'
+
+    // 마리아db
+    implementation 'org.mariadb.jdbc:mariadb-java-client:2.7.3'
+
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'io.projectreactor:reactor-test'
+}
+
+def webappDir = "$projectDir/src/main/frontend"
+
+sourceSets {
+    main {
+        resources {
+            srcDirs = ["$webappDir/build", "$projectDir/src/main/resources"]
+        }
+    }
+}
+
+processResources {
+    dependsOn "buildReact"
+}
+
+task buildReact(type: Exec) {
+    dependsOn "installReact"
+    workingDir "$webappDir"
+    inputs.dir "$webappDir"
+    group = BasePlugin.BUILD_GROUP
+    if (System.getProperty('os.name').toLowerCase(Locale.ROOT).contains('windows')) {
+        commandLine "npm.cmd", "run-script", "build"
+    } else {
+        commandLine "npm", "run-script", "build"
+    }
+}
+
+task installReact(type: Exec) {
+    workingDir "$webappDir"
+    inputs.dir "$webappDir"
+    group = BasePlugin.BUILD_GROUP
+    if (System.getProperty('os.name').toLowerCase(Locale.ROOT).contains('windows')) {
+        commandLine "npm.cmd", "audit", "fix"
+        commandLine 'npm.cmd', 'install'
+    } else {
+        commandLine "npm", "audit", "fix"
+        commandLine 'npm', 'install'
+    }
+}
+tasks.named('test') {
+    useJUnitPlatform()
+}
