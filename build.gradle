@@ -64,6 +64,7 @@ task installReact(type: Exec) {
         commandLine 'npm', 'install'
     }
 }
+
 tasks.named('test') {
     useJUnitPlatform()
 }
