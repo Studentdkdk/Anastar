@@ -1,20 +1,22 @@
 import React, {Component} from "react";
-import {Route} from 'react-router';
-import {Header} from "./components/header";
-import logo from './logo.svg';
+import { BrowserRouter as Router, Route, Routes} from "react-router-dom";
 import './App.css';
+import {Home} from "./components/Home";
+import { Layout } from './components/Layout';
 
 
+export default class App extends Component {
+    static displayName = App.name;
 
-
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-          <Route path={''}></Route><Header/>
-      </header>
-    </div>
-  );
+    render() {
+        return (
+            <Layout>
+                <Routes>
+                    <Route path='/' component={Home}/>
+                </Routes>
+            </Layout>
+        );
+    }
 }
 
-export default App;
+

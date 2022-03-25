@@ -29,16 +29,16 @@ export class Header extends Component{
                                     <a href="/board/community/list">아나스타 소식</a>
                                 </li>
                                 <li><a href="/board/notice/list">자료실</a></li>
-                                <c:choose>
-                                    <c:when test="${isLogin eq 1}">
-                                        <sec:authorize access="hasRole('ROLE_USER')">
-                                            <li><a href="${contextPath }/user/mypage">마이페이지</a></li>
-                                        </sec:authorize>
-                                    </c:when>
-                                    <c:otherwise>
-                                        <li><a href="${contextPath }/join">회원가입</a></li>
-                                    </c:otherwise>
-                                </c:choose>
+                                {/*<c:choose>*/}
+                                {/*    <c:when test="${isLogin eq 1}">*/}
+                                {/*        <sec:authorize access="hasRole('ROLE_USER')">*/}
+                                {/*            <li><a href="${contextPath }/user/mypage">마이페이지</a></li>*/}
+                                {/*        </sec:authorize>*/}
+                                {/*    </c:when>*/}
+                                {/*    <c:otherwise>*/}
+                                {/*        <li><a href="${contextPath }/join">회원가입</a></li>*/}
+                                {/*    </c:otherwise>*/}
+                                {/*</c:choose>*/}
                             </ul>
                         </div>
                     </div>
